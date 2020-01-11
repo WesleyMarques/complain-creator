@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as http from 'http';
 
-import UserRouter from '../../components/complain/complain.router';
+import complainComponent from '../../components/complain';
 import swaggerRouter from '../swagger/swagger.routes';
 
 /**
@@ -10,9 +10,9 @@ import swaggerRouter from '../swagger/swagger.routes';
  */
 export default function routes(app: express.Application): void {
         
-    app.use('/v1/users', UserRouter);
+    app.use('/api/v1/complain', complainComponent);
 
-    app.use('/v1/docs', swaggerRouter);
+    app.use('/api/v1/docs', swaggerRouter);
 
     /** 
      * @description No results returned mean the object is not found

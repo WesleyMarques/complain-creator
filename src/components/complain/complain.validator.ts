@@ -4,14 +4,14 @@ import { IComplainModel } from './complain.model';
 
 /**
  * @export
- * @class UserValidation
+ * @class ComplainValidation
  * @extends Validation
  */
-class UserValidation extends Validation {
+class ComplainValidation extends Validation {
 
     /**
-     * Creates an instance of UserValidation.
-     * @memberof UserValidation
+     * Creates an instance of ComplainValidation.
+     * @memberof ComplainValidation
      */
     constructor() {
         super();
@@ -20,16 +20,20 @@ class UserValidation extends Validation {
     /**
      * @param {IComplainModel} params
      * @returns {Joi.ValidationResult<IComplainModel >}
-     * @memberof UserValidation
+     * @memberof ComplainValidation
      */
     createUser(
         params: IComplainModel
-    ): Joi.ValidationResult < IComplainModel > {
+    ): Joi.ValidationResult<IComplainModel> {
         const schema: Joi.Schema = Joi.object().keys({
-            name: Joi.string().required(),
-            email: Joi.string().email({
-                minDomainAtoms: 2
-            }).required()
+            title: Joi.string().required(),
+            description: Joi.string().required(),
+            company: Joi.string().required(),
+            locale: Joi.object().keys({
+                city: Joi.string().required(),
+                provincy: Joi.string().required(),
+                country: Joi.string().required(),
+            })
         });
 
         return Joi.validate(params, schema);
@@ -38,15 +42,15 @@ class UserValidation extends Validation {
     /**
      * @param {{ id: string }} body
      * @returns {Joi.ValidationResult<{ id: string }>}
-     * @memberof UserValidation
+     * @memberof ComplainValidation
      */
     getUser(
         body: {
             id: string
         }
-    ): Joi.ValidationResult < {
+    ): Joi.ValidationResult<{
         id: string
-    } > {
+    }> {
         const schema: Joi.Schema = Joi.object().keys({
             id: this.customJoi.objectId().required()
         });
@@ -57,15 +61,15 @@ class UserValidation extends Validation {
     /**
      * @param {{ id: string }} body
      * @returns {Joi.ValidationResult<{ id: string }>}
-     * @memberof UserValidation
+     * @memberof ComplainValidation
      */
     removeUser(
         body: {
             id: string
         }
-    ): Joi.ValidationResult < {
+    ): Joi.ValidationResult<{
         id: string
-    } > {
+    }> {
         const schema: Joi.Schema = Joi.object().keys({
             id: this.customJoi.objectId().required()
         });
@@ -74,4 +78,4 @@ class UserValidation extends Validation {
     }
 }
 
-export default new UserValidation();
+export default new ComplainValidation();

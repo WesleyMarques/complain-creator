@@ -1,4 +1,4 @@
-import { IUserModel } from './complain.model';
+import { IComplainModel } from './complain.model';
 
 /**
  * @export
@@ -7,29 +7,43 @@ import { IUserModel } from './complain.model';
 export interface IComplainsService {
 
     /**
-     * @returns {Promise<IUserModel[]>}
+     * @returns {Promise<IComplainModel[]>}
      * @memberof IComplainsService
      */
-    findAll(): Promise<IUserModel[]>;
-
-    /**
-     * @param {string} code
-     * @returns {Promise<IUserModel>}
-     * @memberof IComplainsService
-     */
-    findOne(code: string): Promise<IUserModel>;
-
-    /**
-     * @param {IUserModel} IUserModel
-     * @returns {Promise<IUserModel>}
-     * @memberof IComplainsService
-     */
-    insert(IUserModel: IUserModel): Promise<IUserModel>;
+    findAll(): Promise<IComplainModel[]>;
 
     /**
      * @param {string} id
-     * @returns {Promise<IUserModel>}
+     * @returns {Promise<IComplainModel>}
      * @memberof IComplainsService
      */
-    remove(id: string): Promise<IUserModel>;
+    findById(id: string): Promise<IComplainModel>;
+
+    /**
+     * @param {IComplainModel} IComplainModel
+     * @returns {Promise<IComplainModel>}
+     * @memberof IComplainsService
+     */
+    insert(IComplainModel: IComplainModel): Promise<IComplainModel>;
+
+    /**
+     * @param {string} id
+     * @returns {Promise<IComplainModel>}
+     * @memberof IComplainsService
+     */
+    remove(id: string): Promise<IComplainModel>;
+
+    /**
+     * @param {IComplainModel} IComplainModel
+     * @returns {Promise<IComplainModel>}
+     * @memberof IComplainsService
+     */
+    replace(id: string, body: Object): Promise<IComplainModel>;
+
+    /**
+     * @param {string} id
+     * @returns {Promise<IComplainModel>}
+     * @memberof IComplainsService
+     */
+    update(id: string, body: Object): Promise<IComplainModel>;
 }

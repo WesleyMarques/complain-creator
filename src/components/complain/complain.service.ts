@@ -1,6 +1,6 @@
 import * as Joi from 'joi';
-import UserModel, { IComplainModel } from './complain.model';
-import UserValidation from './complain.validator';
+import ComplainModel, { IComplainModel } from './complain.model';
+import ComplainValidation from './complain.validator';
 import { IComplainsService } from './complain.interface';
 import { Types } from 'mongoose';
 
@@ -15,7 +15,7 @@ const ComplainService: IComplainsService = {
      */
     async findAll(): Promise < IComplainModel[] > {
         try {
-            return await UserModel.find({});
+            return await ComplainModel.find({});
         } catch (error) {
             throw new Error(error.message);
         }
@@ -26,11 +26,11 @@ const ComplainService: IComplainsService = {
      * @returns {Promise < IComplainModel >}
      * @memberof ComplainService
      */
-    async findOne(id: string): Promise < IComplainModel > {
+    async findById(id: string): Promise < IComplainModel > {
         try {
             const validate: Joi.ValidationResult < {
                 id: string
-            } > = UserValidation.getUser({
+            } > = ComplainValidation.getUser({
                 id
             });
 
@@ -38,7 +38,7 @@ const ComplainService: IComplainsService = {
                 throw new Error(validate.error.message);
             }
 
-            return await UserModel.findOne({
+            return await ComplainModel.findOne({
                 _id: Types.ObjectId(id)
             });
         } catch (error) {
@@ -53,15 +53,15 @@ const ComplainService: IComplainsService = {
      */
     async insert(body: IComplainModel): Promise < IComplainModel > {
         try {
-            const validate: Joi.ValidationResult < IComplainModel > = UserValidation.createUser(body);
+            const validate: Joi.ValidationResult < IComplainModel > = ComplainValidation.createUser(body);
 
             if (validate.error) {
                 throw new Error(validate.error.message);
             }
 
-            const user: IComplainModel = await UserModel.create(body);
+            const complain: IComplainModel = await ComplainModel.create(body);
 
-            return user;
+            return complain;
         } catch (error) {
             throw new Error(error.message);
         }
@@ -76,7 +76,7 @@ const ComplainService: IComplainsService = {
         try {
             const validate: Joi.ValidationResult < {
                 id: string
-            } > = UserValidation.removeUser({
+            } > = ComplainValidation.removeUser({
                 id
             });
 
@@ -84,11 +84,49 @@ const ComplainService: IComplainsService = {
                 throw new Error(validate.error.message);
             }
 
-            const user: IComplainModel = await UserModel.findOneAndRemove({
+            const complain: IComplainModel = await ComplainModel.findOneAndRemove({
                 _id: Types.ObjectId(id)
             });
 
-            return user;
+            return complain;
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    },
+
+    /**
+     * @param {IComplainModel} complain
+     * @returns {Promise < IComplainModel >}
+     * @memberof ComplainService
+     */
+    async replace(id: string, body: IComplainModel): Promise < IComplainModel > {
+        try {
+            const validate: Joi.ValidationResult < IComplainModel > = ComplainValidation.createUser(body);
+
+            if (validate.error) {
+                throw new Error(validate.error.message);
+            }
+
+            const complain: IComplainModel = await ComplainModel.update({_id: id}, body);
+
+            return complain;
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    },
+
+    /**
+     * @param {IComplainModel} complain
+     * @returns {Promise < IComplainModel >}
+     * @memberof ComplainService
+     */
+    async update(id: string, body: object): Promise < IComplainModel > {
+        try {
+            const complain: IComplainModel = await ComplainModel.findOne({_id: id});
+            complain.set(body);
+            await complain.save();
+
+            return complain;
         } catch (error) {
             throw new Error(error.message);
         }

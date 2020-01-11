@@ -1,5 +1,5 @@
-import * as UserComponent from './complain';
+import * as ComplainComponent from './complain';
 
 export {
-    UserComponent
+    ComplainComponent
 };

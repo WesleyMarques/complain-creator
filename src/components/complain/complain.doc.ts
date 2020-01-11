@@ -1,4 +1,34 @@
 /**
+ * @swagger
+ * components:
+ *  schemas:
+ *    UserSchema:
+ *      required:
+ *        - email
+ *        - name
+ *      properties:
+ *        id:
+ *          type: string
+ *        name:
+ *          type: string
+ *        email:
+ *          type: string
+ *        password:
+ *          type: string
+ *        passwordResetToken:
+ *          type: string
+ *        passwordResetExpires:
+ *          type: string
+ *          format: date
+ *        tokens:
+ *          type: array
+ *    Users:
+ *      type: array
+ *      items:
+ *        $ref: '#/components/schemas/UserSchema'
+ */
+
+/**
  * GET method route
  * @example http://localhost:PORT/v1/users
  * 
