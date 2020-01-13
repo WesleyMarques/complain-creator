@@ -72,7 +72,7 @@ const ComplainService: IComplainsService = {
         try {
             const validate: Joi.ValidationResult < {
                 id: string
-            } > = ComplainValidation.getUser({
+            } > = ComplainValidation.getComplain({
                 id
             });
 
@@ -89,13 +89,13 @@ const ComplainService: IComplainsService = {
     },
 
     /**
-     * @param {IComplainModel} user
+     * @param {IComplainModel} Complain
      * @returns {Promise < IComplainModel >}
      * @memberof ComplainService
      */
     async insert(body: IComplainModel): Promise < IComplainModel > {
         try {
-            const validate: Joi.ValidationResult < IComplainModel > = ComplainValidation.createUser(body);
+            const validate: Joi.ValidationResult < IComplainModel > = ComplainValidation.createComplain(body);
 
             if (validate.error) {
                 throw new Error(validate.error.message);
@@ -118,7 +118,7 @@ const ComplainService: IComplainsService = {
         try {
             const validate: Joi.ValidationResult < {
                 id: string
-            } > = ComplainValidation.removeUser({
+            } > = ComplainValidation.removeComplain({
                 id
             });
 
@@ -143,7 +143,7 @@ const ComplainService: IComplainsService = {
      */
     async replace(id: string, body: IComplainModel): Promise < IComplainModel > {
         try {
-            const validate: Joi.ValidationResult < IComplainModel > = ComplainValidation.createUser(body);
+            const validate: Joi.ValidationResult < IComplainModel > = ComplainValidation.createComplain(body);
 
             if (validate.error) {
                 throw new Error(validate.error.message);

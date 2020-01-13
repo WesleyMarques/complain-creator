@@ -22,7 +22,7 @@ class ComplainValidation extends Validation {
      * @returns {Joi.ValidationResult<IComplainModel >}
      * @memberof ComplainValidation
      */
-    createUser(
+    createComplain(
         params: IComplainModel
     ): Joi.ValidationResult<IComplainModel> {
         const schema: Joi.Schema = Joi.object().keys({
@@ -44,7 +44,7 @@ class ComplainValidation extends Validation {
      * @returns {Joi.ValidationResult<{ id: string }>}
      * @memberof ComplainValidation
      */
-    getUser(
+    getComplain(
         body: {
             id: string
         }
@@ -63,7 +63,7 @@ class ComplainValidation extends Validation {
      * @returns {Joi.ValidationResult<{ id: string }>}
      * @memberof ComplainValidation
      */
-    removeUser(
+    removeComplain(
         body: {
             id: string
         }
