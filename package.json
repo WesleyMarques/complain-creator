@@ -16,7 +16,8 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc --skipLibCheck",
-    "start": "tsc --skipLibCheck && nodemon ./build/config/server/index.js",
+    "dev": "tsc --skipLibCheck && nodemon ./build/config/server/index.js",
+    "start": "npm run build && pm2-docker process.yml",
     "ts:watch": "tsc -w",
     "test": "NODE_ENV=test jest --watchAll",
     "build-doc": "node_modules/swagger-jsdoc/bin/swagger-jsdoc.js -d swaggerDef.js -o swagger.json",

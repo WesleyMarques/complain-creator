@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+  server-api:
+    build: .
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - "3000:3000"
+    links:
+      - mongo
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/
+      - NODE_ENV=development
+      - PORT=3000
+      - MONGODB_DB_MAIN=complains_db
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes_from:
+      - mongodata
+
+  mongodata:
+    image: tianon/true
+    volumes:
+      - /data/db
