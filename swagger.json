@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Node-Typescript API",
+    "title": "Complains API",
     "version": "1.0.0",
-    "description": "A sample API"
+    "description": ""
   },
   "servers": [
     {
@@ -11,234 +11,448 @@
     }
   ],
   "paths": {
-    "/v1/users": {
+    "/complains/": {
       "get": {
-        "description": "Get all stored users in Database",
         "tags": [
-          "users"
+          "Complains"
         ],
-        "security": [
+        "summary": "Get all Complains.",
+        "description": "Get all Complains",
+        "parameters": [
           {
-            "ApiKeyAuth": []
+            "name": "company",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "city",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "perPage",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "An array of users",
+            "description": "Operation executed with success",
             "content": {
               "application/json": {
                 "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/Users"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Complain"
+                  }
+                },
+                "example": [
+                  {
+                    "id": 1,
+                    "title": "Complain title",
+                    "description": "Desc",
+                    "company": "Company Name",
+                    "locale": {
+                      "city": "City Name",
+                      "provincy": "Provincy Name",
+                      "country": "Country Name"
                     }
-                  ]
-                }
+                  }
+                ]
               }
             }
           },
-          "default": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
       },
       "post": {
-        "description": "Create new User",
         "tags": [
-          "users"
+          "Complains"
         ],
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ],
+        "summary": "Create a complain.",
+        "description": "Create a complain",
         "requestBody": {
-          "description": "user creation request body",
-          "required": true,
+          "description": "complain payload",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserSchema"
+                "$ref": "#/definitions/Complain"
               },
               "example": {
-                "name": "userName",
-                "email": "test.user@mail.com"
+                "title": "Title 1,",
+                "description": "Description 1,",
+                "company": "Company 1,",
+                "locale": {
+                  "title": "Complain title",
+                  "description": "Desc",
+                  "company": "Company Name",
+                  "locale": {
+                    "city": "City Name",
+                    "provincy": "Provincy Name",
+                    "country": "Country Name"
+                  }
+                }
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "return created user",
+            "description": "Operation executed with success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/complain/{id}": {
+      "get": {
+        "tags": [
+          "Complains"
+        ],
+        "summary": "Find complain by id.",
+        "description": "Find complain by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation executed with success",
             "content": {
               "application/json": {
                 "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/UserSchema"
-                    }
-                  ]
+                  "$ref": "#/definitions/Complain"
+                },
+                "example": {
+                  "id": "1,",
+                  "title": "Title 1,",
+                  "description": "Description 1,",
+                  "company": "Company,",
+                  "locale": {
+                    "city": "City 1",
+                    "provincy": "Provincy 1",
+                    "country": "Country 1"
+                  }
                 }
               }
             }
           },
-          "default": {
-            "description": "unexpected error",
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized error"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Complains"
+        ],
+        "summary": "Update any complain by id.",
+        "description": "Update complain by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "complain payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Complain"
+              },
+              "example": {
+                "id": "1,",
+                "title": "Title 1,",
+                "description": "Description 1,",
+                "company": "Company,",
+                "locale": {
+                  "city": "City 1",
+                  "provincy": "Provincy 1",
+                  "country": "Country 1"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Operation executed with success",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/Complain"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized error"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Complains"
+        ],
+        "summary": "Update any property of complain by id.",
+        "description": "Update any property of complain by id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "complain payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Complain"
+              },
+              "example": {
+                "title": "Title 1,",
+                "description": "Description 1"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Operation executed with success",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/Complain"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized error"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Complains"
+        ],
+        "summary": "Delete any complain by id.",
+        "description": "Delete complain by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Operation executed with success"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized error"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/complain/insights": {
+      "get": {
+        "tags": [
+          "Complains"
+        ],
+        "summary": "Get Number of Complains.",
+        "description": "Get Number of Complains",
+        "parameters": [
+          {
+            "name": "company",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "city",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "perPage",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation executed with success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "type": "number"
                 }
               }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized error"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Complain": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "company": {
+          "type": "string"
+        },
+        "locale": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string"
+            },
+            "provincy": {
+              "type": "string"
+            },
+            "country": {
+              "type": "string"
             }
           }
         }
       }
     },
-    "/v1/users/{id}": {
-      "get": {
-        "description": "Get user by userId",
-        "tags": [
-          "users"
-        ],
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "description": "the unique userId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "return user by id",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/UserSchema"
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "description": "Delete user by userId",
-        "tags": [
-          "users"
-        ],
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "description": "the unique userId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "return deleted user",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/UserSchema"
-                    }
-                  ]
-                }
-              }
-            }
-          }
+    "Error": {
+      "type": "object",
+      "required": [
+        "status",
+        "message"
+      ],
+      "properties": {
+        "status": {
+          "type": "integer",
+          "description": "HTTP status code",
+          "example": 200
+        },
+        "message": {
+          "type": "string",
+          "description": "Error description",
+          "example": "Complain created"
         }
       }
     }
   },
-  "components": {
-    "schemas": {
-      "UserSchema": {
-        "required": [
-          "email",
-          "name"
-        ],
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "passwordResetToken": {
-            "type": "string"
-          },
-          "passwordResetExpires": {
-            "type": "string",
-            "format": "date"
-          },
-          "tokens": {
-            "type": "array"
-          }
-        }
-      },
-      "Users": {
-        "type": "array",
-        "items": {
-          "$ref": "#/components/schemas/UserSchema"
-        }
-      },
-      "Error": {
-        "type": "object",
-        "required": [
-          "status",
-          "message"
-        ],
-        "properties": {
-          "status": {
-            "type": "integer",
-            "description": "HTTP status code",
-            "example": 200
-          },
-          "message": {
-            "type": "string",
-            "description": "Error description",
-            "example": "User created"
-          }
-        }
-      }
-    }
-  },
+  "components": {},
   "tags": []
 }

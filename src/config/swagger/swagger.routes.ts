@@ -5,7 +5,7 @@ import * as swaggerUi from 'swagger-ui-express';
 let swaggerDoc: Object;
 
 try {
-    swaggerDoc = require('../../swagger.json');
+    swaggerDoc = require('../../../swagger.json');
 } catch (error) {
     console.log('***************************************************');
     console.log('  Please, run: ');

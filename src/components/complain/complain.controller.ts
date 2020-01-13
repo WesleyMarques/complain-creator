@@ -49,7 +49,7 @@ export class ComplainController {
     try {
       const complain: IComplainModel = await complainService.remove(req.params.id);
 
-      res.status(200).json(complain.toJSON());
+      res.status(204).json(complain.toJSON());
     } catch (error) {
       next(new HttpError(error.message.status, error.message));
     }
