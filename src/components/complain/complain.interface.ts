@@ -10,7 +10,13 @@ export interface IComplainsService {
      * @returns {Promise<IComplainModel[]>}
      * @memberof IComplainsService
      */
-    findAll(): Promise<IComplainModel[]>;
+    list(params: Object): Promise<IComplainModel[]>;
+
+    /**
+     * @returns {Promise<IComplainModel[]>}
+     * @memberof IComplainsService
+     */
+     insigths(params: Object): Promise<Number>;
 
     /**
      * @param {string} id

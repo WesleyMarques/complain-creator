@@ -3,6 +3,7 @@ import ComplainModel, { IComplainModel } from './complain.model';
 import ComplainValidation from './complain.validator';
 import { IComplainsService } from './complain.interface';
 import { Types } from 'mongoose';
+import { omitBy, isNil } from 'lodash';
 
 /**
  * @export
@@ -13,9 +14,50 @@ const ComplainService: IComplainsService = {
      * @returns {Promise < IComplainModel[] >}
      * @memberof ComplainService
      */
-    async findAll(): Promise < IComplainModel[] > {
+    async list(params:any): Promise < IComplainModel[] > {
         try {
-            return await ComplainModel.find({});
+            let { company, city, page = 1, perPage = 50 } = params;
+            let options = omitBy({
+                company,
+            }, isNil);
+        
+            if (city) {
+                options['locale.city'] = { $regex : new RegExp(city, "i") };
+            }
+
+            page = parseInt(page)
+            perPage = parseInt(perPage)
+        
+            return await ComplainModel.find(options)
+                .sort({
+                    createdAt: -1,
+                })
+                .skip(perPage * (page - 1))
+                .limit(perPage)
+                .exec();
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    },
+
+    /**
+     * @returns {Promise < Number >}
+     * @memberof ComplainService
+     */
+    async insigths(params:any): Promise < Number > {
+        try {
+            const { company, city } = params;
+            let options = omitBy({
+                company,
+            }, isNil);
+        
+            if (city) {
+                options['locale.city'] = { $regex : new RegExp(city, "i") };
+            }
+        
+            return await ComplainModel.find(options)
+                .count()
+                .exec();
         } catch (error) {
             throw new Error(error.message);
         }

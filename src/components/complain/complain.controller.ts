@@ -5,15 +5,26 @@ import { NextFunction, Request, Response } from 'express';
 
 export class ComplainController {
 
-  async findAll(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async list(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const complains: IComplainModel[] = await complainService.findAll();
+      const complains: IComplainModel[] = await complainService.list(req.query);
 
       res.status(200).json(complains);
     } catch (error) {
       next(new HttpError(error.message.status, error.message));
     }
   }
+
+  async insigths(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const complainsSize: Number = await complainService.insigths(req.query);
+
+      res.status(200).json(complainsSize);
+    } catch (error) {
+      next(new HttpError(error.message.status, error.message));
+    }
+  }
+
 
   async findById(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {

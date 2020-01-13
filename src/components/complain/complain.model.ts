@@ -28,10 +28,12 @@ const ComplainSchema: Schema = new Schema({
     collection: 'complain',
     versionKey: false,
     timestamps: true,
-    toJSON: {transform: (doc:any, ret:any) => {
-        delete ret._id;
-        delete ret.updatedAt;
-    }}
+    toJSON: {
+        transform: (doc: any, ret: any) => {
+            delete ret._id;
+            delete ret.updatedAt;
+        }
+    }
 });
 
 export default connections.db.model<IComplainModel>('ComplainModel', ComplainSchema);
