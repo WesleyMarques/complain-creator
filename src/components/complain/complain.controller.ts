@@ -58,7 +58,7 @@ export class ComplainController {
   async replace(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const complain: IComplainModel = await complainService.replace(req.params.id, req.body);
-      res.status(201).json(complain.toJSON());
+      res.status(200).json(complain.toJSON());
     } catch (error) {
       next(new HttpError(error.message.status, error.message));
     }
@@ -67,7 +67,7 @@ export class ComplainController {
   async update(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const complain: IComplainModel = await complainService.update(req.params.id, req.body);
-      res.status(201).json(complain.toJSON());
+      res.status(200).json(complain.toJSON());
     } catch (error) {
       next(new HttpError(error.message.status, error.message));
     }
